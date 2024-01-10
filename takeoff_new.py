@@ -5,35 +5,35 @@ import numpy as np
 
 # verificar esses dados
 incidence_wing = 0
-incidence_elevator = -2
+incidence_elevator = -5
 #incidence_elevator = 2
 x_cg = -0.08
 y_cg = -0.04
 x_landing_gear = -0.12
-y_landing_gear = -0.2
+y_landing_gear = -0.23
 x_motor = 0.20
 y_motor = -0.05
 x_wing = -0.0625
 y_wing = 0
 x_elevator = -0.875
 y_elevator = 0.15
-x_rudder = -0.875
+x_rudder = -0.845
 y_rudder = 0.2
 moment_of_inertia_landing_gear = 0.18
 stall_angle = 13
-elevator_area = 2*elevator_area ######## gambiarra
+elevator_area = 1*elevator_area ######## gambiarra
 takeoff_distance = 10
 pilot_offset = 3
 
-s1210_dataframe = pd.read_csv('s1210.csv', skiprows=10, index_col=0)
-s1210_cl_alpha = s1210_dataframe[['Cl']]
-s1210_cd_alpha = s1210_dataframe[['Cd']]
-s1210_cm_alpha = s1210_dataframe[['Cm']]
-
-sd7037_dataframe = pd.read_csv('sd7037.csv', skiprows=10, index_col=0)
-sd7037_cl_alpha = sd7037_dataframe[['Cl']]
-sd7037_cd_alpha = sd7037_dataframe[['Cd']]
-sd7037_cm_alpha = sd7037_dataframe[['Cm']]
+#s1210_dataframe = pd.read_csv('s1210.csv', skiprows=10, index_col=0)
+#s1210_cl_alpha = s1210_dataframe[['Cl']]
+#s1210_cd_alpha = s1210_dataframe[['Cd']]
+#s1210_cm_alpha = s1210_dataframe[['Cm']]
+#
+#sd7037_dataframe = pd.read_csv('sd7037.csv', skiprows=10, index_col=0)
+#sd7037_cl_alpha = sd7037_dataframe[['Cl']]
+#sd7037_cd_alpha = sd7037_dataframe[['Cd']]
+#sd7037_cm_alpha = sd7037_dataframe[['Cm']]
 
 wing_dataframe = pd.read_csv('wing.csv', skiprows=6, index_col=0)
 wing_cl_alpha = wing_dataframe[[' CL']]
@@ -104,13 +104,12 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             motor_thrust_x = motor_thrust*math.cos(math.radians(alpha_airplane))
             motor_thrust_y = motor_thrust*math.sin(math.radians(alpha_airplane))
             motor_thrust_moment = motor_thrust_y*abs(x_landing_gear - x_motor) - motor_thrust_x*abs(y_landing_gear - y_motor)
-
+            
             cl_wing = np.interp(alpha_wing, wing_cl_alpha.index.values, wing_cl_alpha[' CL'])
             cd_wing = np.interp(alpha_wing, wing_cd_alpha.index.values, wing_cd_alpha[' CD'])
             cm_wing = np.interp(alpha_wing, wing_cm_alpha.index.values, wing_cm_alpha[' Cm'])
             
             cl_elevator = np.interp(alpha_elevator, elevator_cl_alpha.index.values, elevator_cl_alpha[' CL'])
-            #cl_elevator = -0.377
             cd_elevator = np.interp(alpha_elevator, elevator_cd_alpha.index.values, elevator_cd_alpha[' CD'])
             cm_elevator = np.interp(alpha_elevator, elevator_cm_alpha.index.values, elevator_cm_alpha[' Cm'])
             
@@ -123,7 +122,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
                 cd_elevator = cd_elevator_triggered
                 cm_elevator = cm_elevator_triggered
                 #pilot_triggered = True
-
+            
             #cl_wing = np.interp(alpha_wing, s1210_cl_alpha.index.values, s1210_cl_alpha['Cl'])
             #cd_wing = np.interp(alpha_wing, s1210_cd_alpha.index.values, s1210_cd_alpha['Cd'])
             #cm_wing = np.interp(alpha_wing, s1210_cm_alpha.index.values, s1210_cm_alpha['Cm'])
@@ -136,13 +135,13 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             wing_moment = get_moment(air_density_sjdc, wing_area, cm_wing, velocity_x)
             wing_lift_moment = wing_lift*abs(x_landing_gear - x_wing)
             wing_drag_moment = wing_drag*abs(y_landing_gear - y_wing)
-
+            
             elevator_lift = get_lift(air_density_sjdc, elevator_area, cl_elevator, velocity_x)
             elevator_drag = get_drag(air_density_sjdc, elevator_area, cd_elevator, velocity_x)
             elevator_moment = get_moment(air_density_sjdc, elevator_area, cm_elevator, velocity_x)
             elevator_lift_moment = elevator_lift*abs(x_elevator - x_landing_gear)
             elevator_drag_moment = elevator_drag*abs(y_landing_gear - y_elevator)
-
+            
             rudder_drag = get_drag(air_density_sjdc, rudder_area, incidence_rudder_cd, velocity_x)
             rudder_drag_moment = rudder_drag*abs(y_landing_gear - y_rudder)
             fuselage_drag = get_drag(air_density_sjdc, fuselage_area, fuselage_cd, velocity_x)
@@ -158,7 +157,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             
             total_normal_force = total_weight - total_lift
             total_shear_force = get_shear_force(ground_shear_coeff, total_normal_force)
-
+            
             sum_forces_x = motor_thrust_x - total_drag - total_shear_force
             sum_forces_y = motor_thrust_y + total_lift + total_normal_force - total_weight
 
@@ -207,7 +206,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
                 going_forward = False
         
         total_mass = total_mass + delta_mass
-        #break
+        break
 
     if plot == True:
         plt.plot(displacement_x_array,total_lift_array,label = 'Total lift')
