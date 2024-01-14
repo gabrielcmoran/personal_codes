@@ -5,11 +5,12 @@ import numpy as np
 
 # verificar esses dados
 incidence_wing = 0
-incidence_elevator = -5
+incidence_elevator = -2
 #incidence_elevator = 2
 x_cg = -0.08
 y_cg = -0.04
 x_landing_gear = -0.12
+#x_landing_gear = -0.12
 y_landing_gear = -0.23
 x_motor = 0.20
 y_motor = -0.05
@@ -112,11 +113,11 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             cl_elevator = np.interp(alpha_elevator, elevator_cl_alpha.index.values, elevator_cl_alpha[' CL'])
             cd_elevator = np.interp(alpha_elevator, elevator_cd_alpha.index.values, elevator_cd_alpha[' CD'])
             cm_elevator = np.interp(alpha_elevator, elevator_cm_alpha.index.values, elevator_cm_alpha[' Cm'])
-            
+            #cl_elevator = 1.64*cl_elevator
             cl_elevator_triggered = np.interp(alpha_elevator, elevator_triggered_cl_alpha.index.values, elevator_triggered_cl_alpha[' CL'])
             cd_elevator_triggered = np.interp(alpha_elevator, elevator_triggered_cd_alpha.index.values, elevator_triggered_cd_alpha[' CD'])
             cm_elevator_triggered = np.interp(alpha_elevator, elevator_triggered_cm_alpha.index.values, elevator_triggered_cm_alpha[' Cm'])
-            
+            #cl_elevator_triggered = 1.64*cl_elevator_triggered
             if displacement_x > (takeoff_distance - pilot_offset):
                 cl_elevator = cl_elevator_triggered
                 cd_elevator = cd_elevator_triggered
@@ -139,7 +140,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             elevator_lift = get_lift(air_density_sjdc, elevator_area, cl_elevator, velocity_x)
             elevator_drag = get_drag(air_density_sjdc, elevator_area, cd_elevator, velocity_x)
             elevator_moment = get_moment(air_density_sjdc, elevator_area, cm_elevator, velocity_x)
-            elevator_lift_moment = elevator_lift*abs(x_elevator - x_landing_gear)
+            elevator_lift_moment = -elevator_lift*abs(x_elevator - x_landing_gear)
             elevator_drag_moment = elevator_drag*abs(y_landing_gear - y_elevator)
             
             rudder_drag = get_drag(air_density_sjdc, rudder_area, incidence_rudder_cd, velocity_x)
@@ -147,12 +148,12 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
             fuselage_drag = get_drag(air_density_sjdc, fuselage_area, fuselage_cd, velocity_x)
 
             total_weight = get_weight(total_mass, gravity_acceleration)
-            weight_moment = total_weight*abs(x_landing_gear - x_cg)
+            weight_moment = -total_weight*abs(x_landing_gear - x_cg)
 
             total_lift = wing_lift + elevator_lift
             total_drag = wing_drag + elevator_drag + rudder_drag + fuselage_drag
-            total_moment = (wing_moment + wing_lift_moment + wing_drag_moment + elevator_moment - 
-                            elevator_lift_moment + elevator_drag_moment + rudder_drag_moment - weight_moment + 
+            total_moment = (wing_moment + wing_lift_moment + wing_drag_moment + elevator_moment + 
+                            elevator_lift_moment + elevator_drag_moment + rudder_drag_moment + weight_moment + 
                             motor_thrust_moment)
             
             total_normal_force = total_weight - total_lift
@@ -181,8 +182,9 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
                 alpha_elevator = alpha_elevator + delta_alpha_airplane
 
             time = get_time(time, delta_time)
-            
-            print(f'total: {total_moment:.2f}, wing: {wing_moment:.2f}, wing_lift_m: {wing_lift_moment:.2f}, elevator: {elevator_moment:.2f}, elevator_lift_m: {elevator_lift_moment:.2f}, alpha: {alpha_airplane:.2f}, v: {velocity_x:.2f}, x: {displacement_x:.2f}')
+            print('-----------------------')
+            print(f'total: {total_moment:.2f}, weight_m: {weight_moment:.2f}, wing_m: {wing_moment:.2f}, wing_lift_m: {wing_lift_moment:.2f}, elevator_m: {elevator_moment:.2f}, elevator_lift_m: {elevator_lift_moment:.2f}, v: {velocity_x:.2f}, x: {displacement_x:.2f}')
+            print(f'total: {total_moment:.2f}, thrust_m: {motor_thrust_moment:.2f}, wing_d_m: {wing_drag_moment:.2f}, elevator_d_m: {elevator_drag_moment:.2f}, thrust_y: {motor_thrust_y:.2f}, thrust_x: {motor_thrust_x:.2f}, v: {velocity_x:.2f}, x: {displacement_x:.2f}')
 
             displacement_y_array.append(displacement_y)
             displacement_x_array.append(displacement_x)
@@ -206,7 +208,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
                 going_forward = False
         
         total_mass = total_mass + delta_mass
-        break
+        #break
 
     if plot == True:
         plt.plot(displacement_x_array,total_lift_array,label = 'Total lift')
