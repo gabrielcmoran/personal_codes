@@ -33,6 +33,7 @@ maneuver_wing_cd = 0.2164
 
 # Elevator
 elevator_area = 0.0966 # [m²]
+elevator_medium_chord = 0.21
 incidence_elevator_cl = 0.6
 incidence_elevator_cd = 0.06
 #maneuver_elevator_cl = 0.8
