@@ -23,7 +23,7 @@ y_rudder = 0.2
 moment_of_inertia_landing_gear = 0.18
 stall_angle = 13
 elevator_area = 1*elevator_area ######## gambiarra
-takeoff_distance = 10
+takeoff_distance = 4.5
 pilot_offset = 1
 
 #s1210_dataframe = pd.read_csv('s1210.csv', skiprows=10, index_col=0)
@@ -62,7 +62,7 @@ def takeoff_analysis(motor_static_thrust,motor_decay_coeff,x_motor,y_motor,air_d
                      moment_of_inertia_landing_gear,plot):
     
     # Variables initialization
-    total_mass = 2.72 # [kg]
+    total_mass = 2 # [kg]
     delta_mass = 0.02 # [kg]
     delta_time = 0.01 # [s]
     displacement_x = 0 # [m]
