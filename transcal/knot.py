@@ -85,8 +85,11 @@ class Knot:
             elif self.n == N_b and M_a < self.m < M_b: # (m,N_b) knots with M_a < m < M_b
                 self.group = self.group + 0.3
         
-        else: # group 5 - interior
+        elif self.m > M_a and N_a < self.n < N_b: # group 5 - water tubes
             self.group = 5
+        
+        else: # group 6 - interior
+            self.group = 6
             if self.m == M_a and self.n < N_a: # (M_a,n) knots with n < N_a
                 self.group = self.group + 0.1
             elif self.m == M_a and self.n > N_b: # (M_a,n) knots with n > N_b

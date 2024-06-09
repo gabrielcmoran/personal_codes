@@ -42,3 +42,11 @@ m = 0
 n = 0
 knot = Knot(m,n)
 print(knot.equation)
+
+
+
+            #A[k,k]		coef do nó do momento
+            #A[k,k-1]		coef do nó da esq
+            #A[k,k+1]		coef do nó da dir
+            #A[k,k+(n+1)]		coef nó de baixo
+            #A[k,k-(n+1)]		coef nó de cima
