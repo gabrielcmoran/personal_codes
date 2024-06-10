@@ -11,7 +11,6 @@ def resolving_system_of_equations(T,M,N,q_dot,alpha,h,T_inf,K,delta_t,i):
     n = 0
 
     for m in range(M+1):
-        #print(f'linha {m}')
         for n in range(N+1):
             knot = Knot(m,n)
             k = m * (N+1) + n
