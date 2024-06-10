@@ -16,9 +16,9 @@ Ti = (15+273) # initial temperature [°C]
 T_inf = (15+273) # [°C]
 
 # discretization
-delta_t = 0.2 # [s]
-M = 20
-N = 30
+delta_t = 3 # [s]
+M = 16
+N = 16
 
 M_a = math.floor(M/2)
 M_b = M_a + math.floor(M/2) + M%2

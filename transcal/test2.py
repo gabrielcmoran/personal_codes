@@ -5,8 +5,7 @@ import numpy as np
 
 # dimensions
 l_a = 5*(10**-3) # [m]
-l_b = 10*(10**-3) # [m]
-l_c = 5*(10**-3) # [m]
+l_b = 5*(10**-3) # [m]
 h_a = 8*(10**-3) # [m]
 h_b = 8*(10**-3) # [m]
 h_c = 4*(10**-3) # [m]
@@ -33,36 +32,13 @@ N_c = N_b + math.floor(N/3)+ N%3
 
 delta_x_a = l_a/M_a
 delta_x_b = l_b/(M_b - M_a)
-delta_x_c = l_c/(M_c - M_b)
 
 delta_y_a = h_a/N_a
 delta_y_b = h_b/(N_b - N_a)
 delta_y_c = h_c/(N_c - N_b)
-
-m = 0
-n = 0
-#knot = Knot(m,n)
-#print(knot.equation)
-a = 2.16
-print(round(a,1))
-
 
             #A[k,k]		coef do nó do momento
             #A[k,k-1]		coef do nó da esq
             #A[k,k+1]		coef do nó da dir
             #A[k,k+(n+1)]		coef nó de baixo
             #A[k,k-(n+1)]		coef nó de cima
-
-m = 1
-n = 0
-
-for m in range(1):
-    print(m)
-
-m = 0
-M = 5
-N = 10
-##    print(m)
-T_0 = np.full((M,N),15)
-#print(T_0)
-
