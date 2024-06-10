@@ -1,29 +1,37 @@
-import math
-#import sympy as sp
-#from initialization import *
 from parameters import *
-from system_of_equations_copy import resolving_system_of_equations
+from system_of_equations_copy import system_of_equations
 import numpy as np
+import matplotlib.pyplot as plt
 
-T_0 = np.full((M+1,N+1),(15+273))
+T_0 = np.full((M+1,N+1),(15+273),dtype=float)
 i = 1
-i_max = 1
+i_max = 10
 T = [T_0]
 np.savetxt('T_0.csv', T[0], delimiter=',', fmt='%.2f')
-print(delta_x_b)
-print(delta_y_a)
-for i in range(i_max):
-    system = resolving_system_of_equations(T,M,N,q_dot_0,alpha,h,T_inf,K,delta_t,i)
-    #det = np.linalg.det(system[0])
-    T_i1 = np.linalg.solve(system[0],system[1])
+while i < i_max:
+    T_i1_matrix = T[i-1]
+    system = system_of_equations(T,M,N,q_dot_0,alpha,h,T_inf,K,delta_t,i)
+    T_i1_array = np.linalg.solve(system[0],system[1])
+    #print(T_i1_matrix)
     for m in range (M+1):
         for n in range(N+1):
             k = m * (N+1) + n
-            T[i][m][n] = T_i1[k]
-    #print(T_i1)
-    #print(det)
-#print(A)
+            T_i1_matrix[m][n] = T_i1_array[k]
+    T.append(T_i1_matrix)
+    i = i + 1
 np.savetxt('A.csv', system[0], delimiter=',', fmt='%.2f')
 np.savetxt('b.csv', system[1], delimiter=',', fmt='%.2f')
-np.savetxt('T_i1_a.csv', T_i1, delimiter=',', fmt='%.2f')
-np.savetxt('T_i1.csv', T[i], delimiter=',', fmt='%.2f')
+np.savetxt('T_i1_a.csv', T_i1_array, delimiter=',', fmt='%.4f')
+np.savetxt('T_i1.csv', T_i1_matrix, delimiter=',', fmt='%.4f')
+
+T_matrix = T[i-1]
+T_matrix = T_matrix - 273
+T_matrix = T_matrix[:, ::-1]
+T_matrix = np.transpose(T_matrix)
+
+plt.imshow(T_matrix, cmap='hot', interpolation='nearest')
+cbar = plt.colorbar()
+cbar.set_label('Temperatura [°C]')
+plt.title("Distribuição de temperaturas")
+plt.yticks(np.arange(len(T_matrix)), np.flip(np.arange(len(T_matrix))))
+plt.show()
