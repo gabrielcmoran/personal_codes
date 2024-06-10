@@ -1,6 +1,7 @@
 import math
 import sympy as sp
 from knot import Knot
+import numpy as np
 
 # dimensions
 l_a = 5*(10**-3) # [m]
@@ -40,9 +41,10 @@ delta_y_c = h_c/(N_c - N_b)
 
 m = 0
 n = 0
-knot = Knot(m,n)
-print(knot.equation)
-
+#knot = Knot(m,n)
+#print(knot.equation)
+a = 2.16
+print(round(a,1))
 
 
             #A[k,k]		coef do nó do momento
@@ -50,3 +52,17 @@ print(knot.equation)
             #A[k,k+1]		coef do nó da dir
             #A[k,k+(n+1)]		coef nó de baixo
             #A[k,k-(n+1)]		coef nó de cima
+
+m = 1
+n = 0
+
+for m in range(1):
+    print(m)
+
+m = 0
+M = 5
+N = 10
+##    print(m)
+T_0 = np.full((M,N),15)
+#print(T_0)
+

@@ -24,7 +24,7 @@ class Knot:
             elif self.m == M and self.n == N: # (M,N) knot
                 self.group = self.group + 0.4
             
-        elif ((self.m == 0) or (self.m == M) or (self.n == 0) or self.n == N): # group 2 - walls
+        elif ((self.m == 0) or (self.m == M and not N_a <= self.n <= N_b) or (self.n == 0) or self.n == N): # group 2 - walls
             self.group = 2
             
             if self.m == 0: # left wall
@@ -170,19 +170,27 @@ class Knot:
         
         elif math.floor(self.group) == 3: # group 3
             if self.group == 3.1:
+                self.delta_x = 1
+                self.delta_y = 1
                 self.delta_x_a = delta_x_a
                 self.delta_x_b = delta_x_b
                 self.delta_y_a = delta_y_a
                 self.delta_y_b = delta_y_b
             elif self.group == 3.2:
+                self.delta_x = 1
+                self.delta_y = 1
                 self.delta_x_a = delta_x_a
                 self.delta_x_b = delta_x_b
                 self.delta_y_b = delta_y_b
                 self.delta_y_c = delta_y_c
             elif self.group == 3.3:
+                self.delta_x = 1
+                self.delta_y = 1
                 self.delta_x = delta_x_b
                 self.delta_y = delta_y_a
             elif self.group == 3.4:
+                self.delta_x = 1
+                self.delta_y = 1
                 self.delta_x = delta_x_b
                 self.delta_y = delta_y_c
         
@@ -197,32 +205,32 @@ class Knot:
                 self.delta_x = delta_x_b
                 self.delta_y = delta_y_c
             
-        elif math.floor(self.group) == 5: # group 5
-            if self.group == 5.1:
+        elif math.floor(self.group) == 6: # group 6
+            if self.group == 6.1:
                 self.delta_x = (delta_x_a + delta_x_b)/2
                 self.delta_y = delta_y_a
-            elif self.group == 5.2:
+            elif self.group == 6.2:
                 self.delta_x = (delta_x_a + delta_x_b)/2
                 self.delta_y = delta_y_c
-            elif self.group == 5.3:
+            elif self.group == 6.3:
                 self.delta_x = delta_x_a
                 self.delta_y = (delta_y_a + delta_y_b)/2
-            elif self.group == 5.4:
+            elif self.group == 6.4:
                 self.delta_x = delta_x_a
                 self.delta_y = (delta_y_b + delta_y_c)/2
-            elif self.group == 5.51:
+            elif self.group == 6.51:
                 self.delta_x = delta_x_a
                 self.delta_y = delta_y_a
-            elif self.group == 5.52:
+            elif self.group == 6.52:
                 self.delta_x = delta_x_a
                 self.delta_y = delta_y_b
-            elif self.group == 5.53:
+            elif self.group == 6.53:
                 self.delta_x = delta_x_a
                 self.delta_y = delta_y_c
-            elif self.group == 5.54:
+            elif self.group == 6.54:
                 self.delta_x = delta_x_b
                 self.delta_y = delta_y_a
-            elif self.group == 5.55:
+            elif self.group == 6.55:
                 self.delta_x = delta_x_b
                 self.delta_y = delta_y_c
             
