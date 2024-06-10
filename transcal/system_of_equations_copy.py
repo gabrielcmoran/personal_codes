@@ -2,7 +2,7 @@ import numpy as np
 import math
 from knot import Knot
 
-def resolving_system_of_equations(T,M,N,q_dot,alpha,h,T_inf,K,delta_t,i):
+def system_of_equations(T,M,N,q_dot,alpha,h,T_inf,K,delta_t,i):
     A = np.zeros(((M+1)*(N+1),(M+1)*(N+1)))
     #A = np.zeros(((M)*(N),(M)*(N)))
     b = np.zeros((M+1)*(N+1))
@@ -124,7 +124,7 @@ def resolving_system_of_equations(T,M,N,q_dot,alpha,h,T_inf,K,delta_t,i):
 
             elif knot.group == 5:
                 A[k][k] = 1
-                b[k] = 15
+                b[k] = (15+273)
             
             elif math.floor(knot.group) == 6:
                 A[k][k] = - 2*knot.delta_x/knot.delta_y - 2*knot.delta_y/knot.delta_x - knot.delta_x*knot.delta_y/(alpha*delta_t)
