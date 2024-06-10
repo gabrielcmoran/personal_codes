@@ -8,30 +8,58 @@ i = 1
 i_max = 10
 T = [T_0]
 np.savetxt('T_0.csv', T[0], delimiter=',', fmt='%.2f')
+time_array = []
+q_dot_water_array = []
+q_dot_ratio_array = []
+print(delta_x_b/2, delta_y_b/2)
 while i < i_max:
     T_i1_matrix = T[i-1]
-    system = system_of_equations(T,M,N,q_dot_0,alpha,h,T_inf,K,delta_t,i)
+    system = system_of_equations(T[i-1],M,N,q_dot_0,alpha,h,T_inf,K,delta_t,i)
     T_i1_array = np.linalg.solve(system[0],system[1])
-    #print(T_i1_matrix)
+    k_q_dot_array = system[2]
+    area_q_dot_array = system[3]
+    q_dot_water_total = 0
     for m in range (M+1):
         for n in range(N+1):
             k = m * (N+1) + n
             T_i1_matrix[m][n] = T_i1_array[k]
+    #for item in k_q_dot_array:
+    #    #print(item)
+    #    index = k_q_dot_array.index(item)
+    #    area_local = area_q_dot_array[index]
+    #    #print(area_local)
+    #    T_local = T_i1_array[item]
+    #    #print(T_local)
+    #    q_dot_local = h*area_local*(T_local - T_inf)
+    #    q_dot_local = h*(T_local - T_inf)
+    #    q_dot_water_total = q_dot_water_total + q_dot_local
+    #q_dot_ratio = q_dot_water_total/q_dot_0
+    #time_array.append((i*delta_t))
+    #q_dot_water_array.append(q_dot_water_total)
+    #q_dot_ratio_array.append(q_dot_ratio)
+    np.savetxt('T_i1_a.csv', T_i1_array, delimiter=',', fmt='%.4f')
+    np.savetxt('T_i1.csv', T_i1_matrix, delimiter=',', fmt='%.4f')
     T.append(T_i1_matrix)
     i = i + 1
 np.savetxt('A.csv', system[0], delimiter=',', fmt='%.2f')
-np.savetxt('b.csv', system[1], delimiter=',', fmt='%.2f')
-np.savetxt('T_i1_a.csv', T_i1_array, delimiter=',', fmt='%.4f')
-np.savetxt('T_i1.csv', T_i1_matrix, delimiter=',', fmt='%.4f')
+np.savetxt('b.csv', system[1], delimiter=',', fmt='%.5f')
+#np.savetxt('T_i1_a.csv', T_i1_array, delimiter=',', fmt='%.4f')
+#np.savetxt('T_i1.csv', T_i1_matrix, delimiter=',', fmt='%.4f')
 
-T_matrix = T[i-1]
-T_matrix = T_matrix - 273
-T_matrix = T_matrix[:, ::-1]
-T_matrix = np.transpose(T_matrix)
+plot_a = 0
+if plot_a == 1:
+    T_matrix = T[i-1]
+    T_matrix = T_matrix - 273
+    T_matrix = T_matrix[:, ::-1]
+    T_matrix = np.transpose(T_matrix)
+    plt.imshow(T_matrix, cmap='hot', interpolation='nearest')
+    cbar = plt.colorbar()
+    cbar.set_label('Temperatura [°C]')
+    plt.title("Distribuição de temperaturas")
+    plt.yticks(np.arange(len(T_matrix)), np.flip(np.arange(len(T_matrix))))
+    plt.show()
 
-plt.imshow(T_matrix, cmap='hot', interpolation='nearest')
-cbar = plt.colorbar()
-cbar.set_label('Temperatura [°C]')
-plt.title("Distribuição de temperaturas")
-plt.yticks(np.arange(len(T_matrix)), np.flip(np.arange(len(T_matrix))))
-plt.show()
+plot_b = 2
+if plot_b == 1:
+    plt.plot(time_array, q_dot_ratio_array)
+    plt.show()
