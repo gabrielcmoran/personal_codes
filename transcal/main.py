@@ -1,29 +1,29 @@
 import math
 #import sympy as sp
-from initialization import *
+#from initialization import *
 from parameters import *
-from system_of_equations import resolving_system_of_equations
-from knot import Knot
+from system_of_equations_copy import resolving_system_of_equations
 import numpy as np
 
-knot = Knot(0,0)
-T = np.full((M,N),15)
-#print(knot.group)
+T_0 = np.full((M+1,N+1),(15+273))
 i = 1
-#T = temperature_matrix_initialization(M,N,Ti)
-
-#while i < 2:
-#    T = temperature_matrix_increase(T,i)
-#    i = i + 1
-
-print(T)
-
-#A = resolving_system_of_equations(T, knot, M, N)[0]
-#b = resolving_system_of_equations(T, knot, M, N)[1]
-#b_new = resolving_system_of_equations(T, knot, M, N)[2]
+i_max = 1
+T = [T_0]
+np.savetxt('T_0.csv', T[0], delimiter=',', fmt='%.2f')
+print(delta_x_b)
+print(delta_y_a)
+for i in range(i_max):
+    system = resolving_system_of_equations(T,M,N,q_dot_0,alpha,h,T_inf,K,delta_t,i)
+    #det = np.linalg.det(system[0])
+    T_i1 = np.linalg.solve(system[0],system[1])
+    for m in range (M+1):
+        for n in range(N+1):
+            k = m * (N+1) + n
+            T[i][m][n] = T_i1[k]
+    #print(T_i1)
+    #print(det)
 #print(A)
-#print(b)
-#print(b_new)
-
-A = [[1,1,1], [2,2,4], [3,3,3]]
-print(A[1][2])
+np.savetxt('A.csv', system[0], delimiter=',', fmt='%.2f')
+np.savetxt('b.csv', system[1], delimiter=',', fmt='%.2f')
+np.savetxt('T_i1_a.csv', T_i1, delimiter=',', fmt='%.2f')
+np.savetxt('T_i1.csv', T[i], delimiter=',', fmt='%.2f')
