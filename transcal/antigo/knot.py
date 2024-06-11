@@ -1,5 +1,6 @@
 import math
 from parameters import *
+from initialization import T,i
 import sympy as sp
 
 #i = 0 # ---------- verificar
@@ -8,8 +9,6 @@ class Knot:
     def __init__(self, m, n):
         self.m = m
         self.n = n
-        self.delta_x = delta_x
-        self.delta_y = delta_y
         self.run()
     
     def get_group(self):
@@ -109,6 +108,132 @@ class Knot:
                 self.group = self.group + 0.54
             elif self.m > M_a and self.n > N_b: # (m,n) knots with M_a < m < M_b and n > N_b
                 self.group = self.group + 0.55
+    
+    def get_dimensions(self):
+        if math.floor(self.group) == 1: # group 1
+            if self.group == 1.1:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_a
+            elif self.group == 1.2:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_c
+            elif self.group == 1.3:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            elif self.group == 1.4:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
+        
+        elif math.floor(self.group) == 2: # group 2
+            if self.group == 2.11:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_a
+            elif self.group == 2.12:
+                self.delta_x = delta_x_a
+                self.delta_y = (delta_y_a + delta_y_b)/2
+            elif self.group == 2.13:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_b
+            elif self.group == 2.14:
+                self.delta_x = delta_x_a
+                self.delta_y = (delta_y_b + delta_y_c)/2
+            elif self.group == 2.15:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_c
+            
+            elif self.group == 2.21:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            elif self.group == 2.22:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
+
+            elif self.group == 2.31:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_a
+            elif self.group == 2.32:
+                self.delta_x = (delta_x_a + delta_x_b)/2
+                self.delta_y = delta_y_a
+            elif self.group == 2.33:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            
+            elif self.group == 2.41:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_c
+            elif self.group == 2.42:
+                self.delta_x = (delta_x_a + delta_x_b)/2
+                self.delta_y = delta_y_c
+            elif self.group == 2.43:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
+        
+        elif math.floor(self.group) == 3: # group 3
+            if self.group == 3.1:
+                self.delta_x = 1
+                self.delta_y = 1
+                self.delta_x_a = delta_x_a
+                self.delta_x_b = delta_x_b
+                self.delta_y_a = delta_y_a
+                self.delta_y_b = delta_y_b
+            elif self.group == 3.2:
+                self.delta_x = 1
+                self.delta_y = 1
+                self.delta_x_a = delta_x_a
+                self.delta_x_b = delta_x_b
+                self.delta_y_b = delta_y_b
+                self.delta_y_c = delta_y_c
+            elif self.group == 3.3:
+                self.delta_x = 1
+                self.delta_y = 1
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            elif self.group == 3.4:
+                self.delta_x = 1
+                self.delta_y = 1
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
+        
+        elif math.floor(self.group) == 4: # group 4
+            if self.group == 4.1:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_b
+            elif self.group == 4.2:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            elif self.group == 4.3:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
+            
+        elif math.floor(self.group) == 6: # group 6
+            if self.group == 6.1:
+                self.delta_x = (delta_x_a + delta_x_b)/2
+                self.delta_y = delta_y_a
+            elif self.group == 6.2:
+                self.delta_x = (delta_x_a + delta_x_b)/2
+                self.delta_y = delta_y_c
+            elif self.group == 6.3:
+                self.delta_x = delta_x_a
+                self.delta_y = (delta_y_a + delta_y_b)/2
+            elif self.group == 6.4:
+                self.delta_x = delta_x_a
+                self.delta_y = (delta_y_b + delta_y_c)/2
+            elif self.group == 6.51:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_a
+            elif self.group == 6.52:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_b
+            elif self.group == 6.53:
+                self.delta_x = delta_x_a
+                self.delta_y = delta_y_c
+            elif self.group == 6.54:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_a
+            elif self.group == 6.55:
+                self.delta_x = delta_x_b
+                self.delta_y = delta_y_c
             
     def run(self):
         self.get_group()
+        self.get_dimensions()
