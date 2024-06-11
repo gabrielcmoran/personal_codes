@@ -9,16 +9,18 @@ h_c = 4*(10**-3) # [m]
 
 # data
 K = 190 # termic conductivity [W/mK]
-q_dot_0 = 10**5 # heat flow [W/m²]
+q_dot_0 = 1*(10**5) # heat flow [W/m²]
 alpha = 75*(10**-6) # termic resistivity [m²/s]
 h = 5000 # convection coefficient [W/m²K]
 Ti = (15+273) # initial temperature [°C]
+#Ti = 15 # initial temperature [°C]
 T_inf = (15+273) # [°C]
+#T_inf = 15 # [°C]
 
 # discretization
-delta_t = 3 # [s]
-M = 16
-N = 16
+delta_t = 1 # [s]
+M = 15
+N = 14
 
 M_a = math.floor(M/2)
 M_b = M_a + math.floor(M/2) + M%2
