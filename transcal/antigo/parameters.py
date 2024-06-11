@@ -19,13 +19,19 @@ T_inf = (15+273) # [°C]
 
 # discretization
 delta_t = 1 # [s]
-M = 14
-N = 15
+M = 15
+N = 14
 
-delta_x = (l_a+l_b)/M
-delta_y = (h_a+h_b+h_c)/N
-M_a = M/2
-M_b = 2*M/2
-N_a = N/3
-N_b = 2*N/3
-N_c = 3*N/3
+M_a = math.floor(M/2)
+M_b = M_a + math.floor(M/2) + M%2
+
+N_a = math.floor(N/3)
+N_b = N_a + math.floor(N/3)
+N_c = N_b + math.floor(N/3)+ N%3
+
+delta_x_a = l_a/M_a
+delta_x_b = l_b/(M_b - M_a)
+
+delta_y_a = h_a/N_a
+delta_y_b = h_b/(N_b - N_a)
+delta_y_c = h_c/(N_c - N_b)
