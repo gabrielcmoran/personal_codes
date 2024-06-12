@@ -2,8 +2,6 @@ import math
 from parameters import *
 import sympy as sp
 
-#i = 0 # ---------- verificar
-
 class Knot:
     def __init__(self, m, n):
         self.m = m
@@ -25,42 +23,22 @@ class Knot:
             elif self.m == M and self.n == N: # (M,N) knot
                 self.group = self.group + 0.4
             
-        elif ((self.m == 0) or (self.m == M and not N_a <= self.n <= N_b) or (self.n == 0) or self.n == N): # group 2 - walls
+        elif ((self.m == 0 and not (self.n == 0  or self.n == N)) or (self.m == M and not N_a <= self.n <= N_b) 
+              or (self.n == 0 and not (self.m == 0 or self.m == M)) or 
+              (self.n == N and not (self.m == 0 or self.m == M))): # group 2 - walls
             self.group = 2
             
-            if self.m == 0: # left wall
-                if self.n < N_a: # (0,n) knots with n < N_a
-                    self.group = self.group + 0.11
-                elif self.n == N_a: # (0,N_a) knot
-                    self.group = self.group + 0.12
-                elif N_a < self.n < N_b: # (0,n) knots with N_a < n < N_b
-                    self.group = self.group + 0.13
-                elif self.n == N_b: # (0,N_b) knot
-                    self.group = self.group + 0.14
-                if self.n > N_b: # (0,n) knots with n > N_b
-                    self.group = self.group + 0.15
+            if self.m == 0 and not (self.n == 0  or self.n == N): # left wall - (0,n) knots
+                self.group = self.group + 0.1
             
-            elif self.m == M: # right wall
-                if self.n < N_a: # (M,n) knots with n < N_a
-                    self.group = self.group + 0.21
-                if self.n > N_b: # (M,n) knots with n > N_b
-                    self.group = self.group + 0.22
+            elif self.m == M and not N_a <= self.n <= N_b: # right wall - (M,n) knots with N_a < n < N_b
+                self.group = self.group + 0.2
             
-            elif self.n == 0: # inferior wall
-                if self.m < M_a: # (m,0) knots with m < M_a
-                    self.group = self.group + 0.31
-                elif self.m == M_a: # (M_a,0) knot
-                    self.group = self.group + 0.32
-                if self.m > M_a: # (m,0) knots with m > M_a
-                    self.group = self.group + 0.33
+            elif self.n == 0 and not (self.m == 0 or self.m == M): # inferior wall - (m,0) knots
+                self.group = self.group + 0.3
             
-            elif self.n == N: # superior wall
-                if self.m < M_a: # (m,N) knots with m < M_a
-                    self.group = self.group + 0.41
-                elif self.m == M_a: # (M_a,N) knot
-                    self.group = self.group + 0.42
-                if self.m > M_a: # (m,N) knots with m > M_a
-                    self.group = self.group + 0.43
+            elif self.n == N and not (self.m == 0 or self.m == M): # superior wall - (m,N) knots
+                self.group = self.group + 0.4
         
         elif ((self.m == M_a and self.n == N_a) or (self.m == M_a and self.n == N_b) or 
               (self.m == M_b and self.n == N_a) or (self.m == M_b and self.n == N_b)): # group 3 - tube corners
@@ -91,24 +69,6 @@ class Knot:
         
         else: # group 6 - interior
             self.group = 6
-            if self.m == M_a and self.n < N_a: # (M_a,n) knots with n < N_a
-                self.group = self.group + 0.1
-            elif self.m == M_a and self.n > N_b: # (M_a,n) knots with n > N_b
-                self.group = self.group + 0.2
-            elif self.n == N_a and self.m < M_a: # (m,N_a) knots with m < M_a
-                self.group = self.group + 0.3
-            elif self.n == N_b and self.m < M_a: # (m,N_b) knots with m < M_a
-                self.group = self.group + 0.4
-            elif self.m < M_a and self.n < N_a: # (m,n) knots with m < M_a and n < N_a
-                self.group = self.group + 0.51
-            elif self.m < M_a and N_a < self.n < N_b: # (m,n) knots with m < M_a and N_a < n < N_b
-                self.group = self.group + 0.52
-            elif self.m < M_a and self.n > N_b: # (m,n) knots with m < M_a and n > N_b
-                self.group = self.group + 0.53
-            elif self.m > M_a and self.n < N_a: # (m,n) knots with M_a < m < M_b and n < N_a
-                self.group = self.group + 0.54
-            elif self.m > M_a and self.n > N_b: # (m,n) knots with M_a < m < M_b and n > N_b
-                self.group = self.group + 0.55
             
     def run(self):
         self.get_group()

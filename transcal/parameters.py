@@ -1,5 +1,3 @@
-import math
-
 # dimensions
 l_a = 5*(10**-3) # [m]
 l_b = 5*(10**-3) # [m]
@@ -13,14 +11,12 @@ q_dot_0 = 1*(10**5) # heat flow [W/m²]
 alpha = 75*(10**-6) # termic resistivity [m²/s]
 h = 5000 # convection coefficient [W/m²K]
 Ti = (15+273) # initial temperature [°C]
-#Ti = 15 # initial temperature [°C]
 T_inf = (15+273) # [°C]
-#T_inf = 15 # [°C]
 
 # discretization
-delta_t = 1 # [s]
-M = 14
-N = 15
+delta_t = 0.004 # [s]
+M = 10
+N = 12
 
 delta_x = (l_a+l_b)/M
 delta_y = (h_a+h_b+h_c)/N
