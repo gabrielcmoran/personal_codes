@@ -55,10 +55,10 @@ def system_of_equations(T_i0_array,M,N,q_dot,alpha,h,T_inf,K,delta_t,i):
                 b[k] = - knot.delta_x*knot.delta_y*T_i0_array[k]/(alpha*delta_t)
             
             elif knot.group == 2.3:
-                A[k][k] = - knot.delta_x/knot.delta_y - 2*knot.delta_y/knot.delta_x - knot.delta_x*knot.delta_y/(alpha*delta_t)
+                A[k][k] = - 2*knot.delta_x/knot.delta_y - 2*knot.delta_y/knot.delta_x - knot.delta_x*knot.delta_y/(alpha*delta_t)
                 A[k][k+(N+1)] = knot.delta_y/knot.delta_x
                 A[k][k-(N+1)] = knot.delta_y/knot.delta_x
-                A[k][k+1] = knot.delta_x/knot.delta_y
+                A[k][k+1] = 2*knot.delta_x/knot.delta_y
                 b[k] = - 2*q_dot*knot.delta_x/K - knot.delta_x*knot.delta_y*T_i0_array[k]/(alpha*delta_t)
 
             elif knot.group == 2.4:
