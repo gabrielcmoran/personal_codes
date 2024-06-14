@@ -9,7 +9,7 @@ from scipy.sparse import csr_matrix
 T_0_matrix = np.full((M+1,N+1),(15+273),dtype=float)
 T_0_array = np.full(((M+1)*(N+1),1),(15+273),dtype=float)
 i = 1
-i_max = 2
+i_max = 30
 T = [T_0_matrix]
 T_array = [T_0_array]
 time_array = []
@@ -69,7 +69,7 @@ if plot_a == 1:
     plt.yticks(np.arange(len(T_matrix)), np.flip(np.arange(len(T_matrix))))
     plt.show()
 
-plot_b = 2
+plot_b = 1
 if plot_b == 1:
     plt.plot(time_array, Q_dot_ratio_array)
     plt.show()

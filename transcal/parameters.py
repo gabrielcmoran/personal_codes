@@ -14,7 +14,7 @@ Ti = (15+273) # initial temperature [°C]
 T_inf = (15+273) # [°C]
 
 # discretization
-delta_t = 0.004 # [s]
+delta_t = 1 # [s]
 M = 10
 N = 12
 
