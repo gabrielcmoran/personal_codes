@@ -41,8 +41,10 @@ def spacial_discretization(M,N,M_a,M_b,N_a,N_b,delta_x,delta_y,plot):
         plt.plot([M_a, M_b], [N_a, N_a], color='black', linewidth=3)
         plt.plot([M_a, M_b], [N_b, N_b], color='black', linewidth=3)
         for m in range (M+1):
-            plt.plot([m_division_array[m], m_division_array[m]], [0, N], color='grey', linestyle='--')
+            #plt.plot([m_division_array[m], m_division_array[m]], [0, N], color='grey', linestyle='--')
+            plt.plot([m_division_array[m], m_division_array[m]], [0, N], color='grey')
         for n in range (N+1):
-            plt.plot([0, M], [n_division_array[n], n_division_array[n]], color='grey', linestyle='--')
+            #plt.plot([0, M], [n_division_array[n], n_division_array[n]], color='grey', linestyle='--')
+            plt.plot([0, M], [n_division_array[n], n_division_array[n]], color='grey')
         plt.title('Malha')
         plt.show()
