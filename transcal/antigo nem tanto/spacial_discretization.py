@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
 
 def spacial_discretization(M,N,M_a,M_b,N_a,N_b,delta_x,delta_y,plot):
     x_array = []
@@ -25,18 +27,38 @@ def spacial_discretization(M,N,M_a,M_b,N_a,N_b,delta_x,delta_y,plot):
         m_division_array.append(m_division)
         a =  False
     if plot == 1:
-        #plt.scatter(x_array, y_array)
+        #fig, ax = plt.subplots()
         #plt.xlim(0,10)
-        #plt.ylim(0,20)
+        #plt.ylim(int(0),int(20))
         #plt.plot([5, 5], [8, 16], color='black')
         #plt.plot([5, 10], [8, 8], color='black')
         #plt.plot([5, 10], [16, 16], color='black')
-        #plt.xlabel('Posição em x [mm]')
-        #plt.ylabel('Posição em y [mm]')
+        #plt.plot([0, 10], [8, 8], color='grey', linestyle='--', label='Posição dos nós (m,$N_a$)')
+        #plt.plot([0, 10], [16, 16], color='grey', linestyle='-.', label='Posição dos nós (m,$N_b$)')
+        #plt.plot([5, 5], [0, 20], color='grey', linestyle=':', label='Posição dos nós ($M_a$,n)')
+        #ax.tick_params(axis='both', which='major', labelsize=12)
+        #background_rect = patches.Rectangle((0, 0), 10, 20, linewidth=0, edgecolor='none', facecolor='#D3D3D3')
+        #ax.add_patch(background_rect)
+        #rect = patches.Rectangle((5, 8), 5, 8, linewidth=1, edgecolor='black', facecolor='#ADD8E6')
+        #ax.add_patch(rect)
+        #plt.xlabel('Posição em x [mm]',fontsize=14)
+        #plt.ylabel('Posição em y [mm]',fontsize=14)
+        #plt.title('Seção representativa',fontsize=16)
+        #plt.legend(loc='lower left',fontsize=10.5)
+        #plt.show()
         
+        fig, ax = plt.subplots()
+        ax.tick_params(axis='both', which='major', labelsize=12)
+        background_rect = patches.Rectangle((0, 0), 14, 20, linewidth=0, edgecolor='none', facecolor='#D3D3D3')
+        ax.add_patch(background_rect)
+        rect = patches.Rectangle((7, 8), 7, 8, linewidth=1, edgecolor='black', facecolor='#ADD8E6')
+        ax.add_patch(rect)
         plt.scatter(m_array, n_array,s=50)
         plt.xlim(0,M)
         plt.ylim(0,N)
+        plt.xlabel('m',fontsize='12')
+        plt.ylabel('n',fontsize='12')
+        ax.set_yticks(np.arange(0, N+1, 4))
         plt.plot([M_a, M_a], [N_a, N_b], color='black', linewidth=3)
         plt.plot([M_a, M_b], [N_a, N_a], color='black', linewidth=3)
         plt.plot([M_a, M_b], [N_b, N_b], color='black', linewidth=3)

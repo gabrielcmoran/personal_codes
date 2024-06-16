@@ -11,9 +11,4 @@ from parameters import *
             #A[k,k+(n+1)]		coef nó de baixo
             #A[k,k-(n+1)]		coef nó de cima
 plot = 1
-delta_t_max = (delta_x**2)*(delta_y**2)/(2*alpha*((delta_x**2) + (delta_y**2)))
-print(delta_t_max)
-
-delta_t = 0.004
-Ti1 = 2*alpha*delta_t*((1/delta_y**2)*288 + (1/delta_x**2)*288 - ((delta_x**2 + delta_y**2)/(delta_x**2*delta_y**2))*288 + q_dot_0*delta_x/2) + 288
-print(Ti1)
+spacial_discretization(M,N,M_a,M_b,N_a,N_b,delta_x,delta_y,plot)

@@ -13,10 +13,10 @@ h = 5000 # convection coefficient [W/m²K]
 Ti = (15+273) # initial temperature [°C]
 T_inf = (15+273) # [°C]
 
-# discretization
+# spacial discretization
 delta_t = 1 # [s]
-M = 10
-N = 15
+M = 14 # multiple of 2
+N = 20 # multiple of 5
 
 delta_x = (l_a+l_b)/M
 delta_y = (h_a+h_b+h_c)/N
