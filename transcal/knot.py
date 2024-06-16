@@ -1,6 +1,4 @@
-import math
 from parameters import *
-import sympy as sp
 
 class Knot:
     def __init__(self, m, n):
@@ -31,7 +29,7 @@ class Knot:
             if self.m == 0 and not (self.n == 0  or self.n == N): # left wall - (0,n) knots
                 self.group = self.group + 0.1
             
-            elif self.m == M and not N_a <= self.n <= N_b: # right wall - (M,n) knots with N_a < n < N_b
+            elif self.m == M and not N_a <= self.n <= N_b: # right wall - (M,n) knots wih n < N_a or n > N_b
                 self.group = self.group + 0.2
             
             elif self.n == 0 and not (self.m == 0 or self.m == M): # inferior wall - (m,0) knots
